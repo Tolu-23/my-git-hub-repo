@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Tolu library example</title>
+  <style>
+    input {
+      font-size: 2em;
+      margin: 100px 100px 0;
+    }
+  </style>
+</head>
+<body>
+ell
+  <input class="numberInput" type="text">
+  <p></p>
+
+  <script>
+    const input = document.querySelector('.numberInput');
+    const para = document.querySelector('p');
+function squared(num) {
+  return num * num;
+}
+
+function cubed(num) {
+  return num * num * num;
+}
+
+function factorial(num) {
+  if (num < 0) return undefined;
+  if (num == 0) return 1;
+  let x = num - 1;
+  while (x > 1) {
+    num *= x;
+    x--;
+  }
+  return num;
+}
+function squareRoot(num){
+return num**0.5;
+}
+input.addEventListener('change', () => {
+  const num = parseFloat(input.value);
+  if (isNaN(num)) {
+    para.textContent = 'You need to enter a number!';
+  } else {
+    para.textContent = `${num} squared is ${squared(num)}. `;
+    para.textContent += `${num} cubed is ${cubed(num)}. `;
+    para.textContent += `${num} factorial is ${factorial(num)}. `;
+    para.textContent += `${num} squareRoot is ${squareRoot(num)}. `;
+  }
+});
+
+  </script>
+</body>
+</html>

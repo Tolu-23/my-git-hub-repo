@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "..\\web-project"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\dorm"
+		}
+	],
+	"settings": {},
+	"extensions": {
+		"recommendations": [
+			"ms-python.python"
+		]
+	}
+}
