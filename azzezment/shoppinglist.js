@@ -8,7 +8,6 @@ button.addEventListener('click', ()=>{
     renderViews(itemStore); 
     }
     )
-
 let itemStore = [];
 
 function idGenerator() {
