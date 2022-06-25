@@ -3,17 +3,18 @@ const input = document.querySelector('input')
 const list = document.querySelector('ul')
 const search = document.querySelector('#search')
 
-
 button.addEventListener('click', ()=>{
     storeItem(input.value); 
     renderViews(itemStore); 
     }
     )
+
 let itemStore = [];
 
 function idGenerator() {
     return 'number'+ Math.floor(Math.random() * (1000+1)) 
 }
+
 function storeItem(itemValue,) {
     let storeObject= { 
         name: itemValue, 
@@ -24,76 +25,77 @@ function storeItem(itemValue,) {
     localStorage.setItem('myObj', JSON.stringify(itemStore));
     console.log(localStorage)
 }
+
 function renderViews(array = []){
     list.innerHTML= '' 
     array.forEach((item, i)=>{
         input.value= '';
 
-        const listBtn = document.createElement('button')
-        const listMarBtn = document.createElement('button');
-        const listUpBtn = document.createElement('button');
+        const DetBtn = document.createElement('button')
+        const MarkBtn = document.createElement('button');
+        const UpdateBtn = document.createElement('button');
         const listText = document.createElement('span');
         const listId = document.createElement('span')
         const listItem = document.createElement('li');
 
-        listItem.appendChild(listText)
-        listText.textContent = item.name
-        listItem.appendChild(listBtn)
-        listBtn.textContent = 'Delete'
-        listItem.appendChild(listMarBtn);
-        listMarBtn.textContent = 'mark';
-        listItem.appendChild(listUpBtn);
-        listUpBtn.textContent = 'update';
+        const setActive =(listTextColor = '', MarkBtnColor = '')=>{
+            listText.style.color = listTextColor;
+            MarkBtn.style.color = MarkBtnColor;
+        }
+
+        listItem.appendChild(listText);
+        listText.textContent = item.name;
+        listItem.appendChild(DetBtn);
+        DetBtn.textContent = 'Delete';
+        listItem.appendChild(MarkBtn);
+        MarkBtn.textContent = 'mark';
+        listItem.appendChild(UpdateBtn);
+        UpdateBtn.textContent = 'update';
+
+        if (item.done) {
+            setActive('green', 'blue');
+        }
         list.appendChild(listItem)
 
-        function Button() {
-            listBtn.style.backgroundColor = 'red'
-        }
-        Button();
-
-        listBtn.addEventListener('click', ()=>{
-            if (confirm("do you want to delete ?")) {
-                listItem.remove(list);   
-            }
+        DetBtn.addEventListener('click', ()=>{
+            itemStore.splice(i, 1);
+            localStorage.setItem('myObj', JSON.stringify(itemStore));
+            renderViews(itemStore);
         })
-        listUpBtn.addEventListener('click', ()=>{
-                if (itemStore[i].name == input.value && listText.textContent){
-                    itemStore[i].name = listText.setAttribute('ContentEditable', true)
-                    // listText.textContent
-                    listUpBtn.setAttribute('class', 'green');
-                    listUpBtn.textContent = 'saved';
-                    listUpBtn.style.backgroundColor = 'green'
+        UpdateBtn.addEventListener('click', ()=>{
+                if (UpdateBtn.style.backgroundColor === ''){
+                    listText.setAttribute('ContentEditable', true);
+                    UpdateBtn.setAttribute('class', 'green');
+                    UpdateBtn.textContent = 'saved';
+                    UpdateBtn.style.backgroundColor = 'green';
                 }else{
-                    itemStore[i].name = listText.setAttribute('ContentEditable', false)
-                    listUpBtn.setAttribute('class', 'grey');
-                    listUpBtn.textContent = 'edit';
-                    listUpBtn.style.backgroundColor = 'grey'  
+                    listText.setAttribute('ContentEditable', false)
+                    UpdateBtn.setAttribute('class', 'grey');
+                    UpdateBtn.textContent = 'edit';
+                    UpdateBtn.style.backgroundColor = 'black';
+                    itemStore[i].name = listText.textContent;
+                    localStorage.setItem('myObj', JSON.stringify(itemStore));
                 }
                 localStorage.setItem('myObj', JSON.stringify(itemStore));
-                console.log(localStorage) 
-                console.log(listUpBtn)
         });
-        listMarBtn.addEventListener('click', ()=>{
+        MarkBtn.addEventListener('click', ()=>{
 
             if (itemStore[i].done == false) {
                 itemStore[i].done = true;
-                localStorage.setItem('myObj', JSON.stringify(itemStore));
-                listText.style.backgroundColor = 'green';
-                listMarBtn.style.backgroundColor = 'blue';
+                setActive('green', 'blue');
                
             }else{
                 itemStore[i].done = false;
-                listText.style.backgroundColor = '';
-                listMarBtn.style.backgroundColor = '';
+                setActive();
             }
-            console.log(localStorage)
+            localStorage.setItem('myObj', JSON.stringify(itemStore));
         })
     }) 
     if (array.length == 0) {
-       list.innerHTML = 'search not found'
+       list.innerHTML = 'search not found';
     }
-    // input.focus()
 }
+
 search.addEventListener('keyup', (e)=>{
     if (e.key == 'Enter') {
         if (e.target.value == 'latest' || e.target.value == 'earliest' ) {
@@ -127,7 +129,7 @@ search.addEventListener('keyup', (e)=>{
 const theStorage = localStorage.getItem('myObj');
 if(theStorage){
     const red = JSON.parse(theStorage);
-    if (red && Array.isArray && red.length) {
+    if (red && Array.isArray(red) && red.length) {
         itemStore = red;
         renderViews(red);
     }
