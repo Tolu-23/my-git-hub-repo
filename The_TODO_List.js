@@ -1,7 +1,7 @@
 const button = document.querySelector('button');
 const input = document.querySelector('input');
 const list = document.querySelector('ul');
-const search = document.querySelector('search');
+const search = document.querySelector('#search');
 
 let theShop = [];
 button.addEventListener('click', ()=>{
@@ -18,9 +18,9 @@ function theGood(inputValue){
     theShop.unshift(goodCreator);
     localStorage.setItem('TODO', JSON.stringify(theShop));
 }
-function theShelf(Array=[]){
+function theShelf(array=[]){
     list.innerHTML='';
-    Array.forEach((item)=>{
+    array.forEach((item, i)=>{
         input.value = '';
 
         const delBtn = document.createElement('button');
@@ -28,6 +28,11 @@ function theShelf(Array=[]){
         const editBtn = document.createElement('button');
         const text = document.createElement('span');
         const theItems = document.createElement('li');
+
+        const setActive =(textColor = '', markBtnColor = '')=>{
+            text.style.color = textColor;
+            markBtn.style.color = markBtnColor;
+        }
 
         theItems.appendChild(text);
         text.textContent = item.name;
@@ -42,15 +47,11 @@ function theShelf(Array=[]){
         }
         list.append(theItems);
 
-        const setActive =(textColor = '', markBtnColor = '')=>{
-            text.style.color = textColor;
-            markBtn.style.color = markBtnColor;
-        }
         delBtn.addEventListener('click', ()=>{
             if (window.confirm('do you want to delete')) {
             theShop.splice(i, 1);
-            theShelf(theShop);
             localStorage.setItem('TODO', JSON.stringify(theShop));
+            theShelf(theShop);  
         }}
         )
         markBtn.addEventListener('click', ()=>{
@@ -80,29 +81,30 @@ function theShelf(Array=[]){
             localStorage.setItem('TODO', JSON.stringify(theShop));
         })
     })
-    if (Array.length == 0){
+    if (array.length == 0){
         list.innerHTML='item not found';
     }
 }
 
-search.addEventListener('keydown', (e)=>{
+search.addEventListener('keyup', (e)=>{
     if (e.key == 'Enter') {
         if (e.target.value == 'earliest' || e.target.value == 'latest') {
             theShop.reverse();
             theShelf(theShop);
             return
         }
-        if (e.target.value === 'done') {
-            let markeDone = theShop.filter(function(obj){
+        if (e.target.value == 'done') {
+            const markeDone = theShop.filter(function(obj){
                 return obj.done
             })
-            theShelf(markeDone);
-            return
+        theShelf(markeDone);
+        return
         }
-        let Name = theShop.filter(function(obj){
-            return obj.name
+        const Name = theShop.filter(function(obj){
+            return obj.name == e.target.value;
         })
         theShelf(Name);
+        return
     }
     theShelf(theShop);
 })
