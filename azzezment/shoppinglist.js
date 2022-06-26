@@ -5,10 +5,10 @@ const list = document.querySelector('ul')
 const search = document.querySelector('#search')
 // create button listener and function
 button.addEventListener('click', ()=>{
-    storeItem(input.value); 
-    renderViews(itemStore); 
-    }
-    )
+    if (input.value != '') {
+         storeItem(input.value); 
+    renderViews(itemStore);    
+    }})
 //create the array that keeps the object created
 let itemStore = [];
 // the id-generator
@@ -66,10 +66,12 @@ function renderViews(array = []){
 //to make them function. 
 // note- all the element created that has an event listener are to be stored in the local storage
         DetBtn.addEventListener('click', ()=>{
+            if (window.confirm('do you want to delete')) {
             itemStore.splice(i, 1);
             localStorage.setItem('myObj', JSON.stringify(itemStore));
             renderViews(itemStore);
-        })
+        }}
+        )
         UpdateBtn.addEventListener('click', ()=>{
                 if (UpdateBtn.style.backgroundColor === ''){
                     listText.setAttribute('ContentEditable', true);
