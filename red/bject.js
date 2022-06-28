@@ -77,3 +77,55 @@ const index = fruit.findIndex(frui => frui === "blueberries");
 
 console.log(index); // 3
 console.log(fruit[index]);
+
+let first = {q:1, r:2};
+let second = {e:3, d:4};
+let third = {t:5, y:6};
+
+console.log(Object.assign(second, third, first))
+console.log(Object.values(second))
+console.log(Object.keys(second))
+console.log(Object.entries(second));
+
+console.log([1, [2, 3], [4, 5]].flat());    
+console.log([1, [2, [3, [4]]], 5].flat());  
+console.log([1, [2, [3, [4]]], 5].flat(3)); 
+
+console.log('string'.repeat(3)); 
+console.log('tolu'.codePointAt(1))
+
+console.log(String.raw({ raw: 'test' }, 0, 1, 2)); 
+
+console.log(new Date(2022).toString())
+
+let aray = [1];
+let map = new Map([['a', 1], [42, 2]]);
+console.log(map.set(aray, 3).set(true, 4));
+
+let set = new Set([1, 2, 3, 2, 1]);
+
+for (let value of set){console.log(value)};          // => 1, 2, 3
+for (let value of set.values()){console.log(value)}; // => 1, 2, 3
+for (let key of set.keys()){console.log(key)};       // => 1, 2, 3
+for (let [key, value] of set.entries()) {
+  console.log(key);                                 // => 1, 2, 3
+  console.log(value);                               // => 1, 2, 3
+}
+
+
+function* countAppleSales () {
+  let saleList = [3, 7, 5]
+  for (let i = 0; i < saleList.length; i++) {
+    yield saleList[i]
+  }
+}
+let appleStore = countAppleSales()  // Generator { }
+console.log(appleStore.next())      // { value: 3, done: false }
+console.log(appleStore.next())      // { value: 7, done: false }
+console.log(appleStore.next())      // { value: 5, done: false }
+console.log(appleStore.next())      // { value: undefined, done: true }
+
+// const dar = Date.prototype.getDate(1999,06,02);
+// console.log(dar)
+
+console.log(Date.now())
